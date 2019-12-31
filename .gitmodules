@@ -1,0 +1,3 @@
+[submodule "RuntimeCompiledCPlusPlus"]
+	path = RuntimeCompiledCPlusPlus
+	url = https://github.com/RuntimeCompiledCPlusPlus/RuntimeCompiledCPlusPlus
