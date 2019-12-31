@@ -1,3 +1,6 @@
 [submodule "RuntimeCompiledCPlusPlus"]
 	path = RuntimeCompiledCPlusPlus
 	url = https://github.com/RuntimeCompiledCPlusPlus/RuntimeCompiledCPlusPlus
+[submodule "imgui"]
+	path = imgui
+	url = https://github.com/ocornut/imgui
