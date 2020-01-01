@@ -154,6 +154,7 @@
     <ClInclude Include="imgui\imgui_internal.h" />
     <ClInclude Include="imgui\examples\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\examples\imgui_impl_win32.h" />
+    <ClInclude Include="StdioLogSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="imgui\examples\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui\examples\imgui_impl_win32.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StdioLogSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui\misc\natvis\imgui.natvis" />
