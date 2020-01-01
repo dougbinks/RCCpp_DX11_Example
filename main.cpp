@@ -11,6 +11,9 @@
 
 #include "RuntimeObjectSystem.h"
 
+// headers from our example our example
+#include "StdioLogSystem.h"
+
 // Data
 static ID3D11Device*            g_pd3dDevice = NULL;
 static ID3D11DeviceContext*     g_pd3dDeviceContext = NULL;
