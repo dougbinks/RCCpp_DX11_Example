@@ -11,6 +11,10 @@
 RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui", ".cpp" );
 RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_widgets", ".cpp" );
 RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_draw", ".cpp" );
+// D3D11 has a virtual interace, so we only need to include the header and
+// have a system pointer.
+#include <d3d11.h>
+
 
 
 // RCC++ uses interface id's to distinguish between different classes

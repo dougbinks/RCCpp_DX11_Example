@@ -275,6 +275,10 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 bool RCCppInit()
 {
     g_SystemTable.pImContext = ImGui::GetCurrentContext();
+    g_SystemTable.pd3dDevice            = g_pd3dDevice;
+    g_SystemTable.pd3dDeviceContext     = g_pd3dDeviceContext;
+    g_SystemTable.pSwapChain            = g_pSwapChain;
+    g_SystemTable.pMainRenderTargetView = g_mainRenderTargetView;
 
     g_pRuntimeObjectSystem = new RuntimeObjectSystem;
 	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )
