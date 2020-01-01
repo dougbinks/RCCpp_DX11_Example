@@ -43,6 +43,18 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 		g_pSys->pRCCppMainLoopI = this;
 	}
 
+	void Init( bool isFirstInit ) override
+	{
+        // If you want to do any initialization which is expensive and done after state
+        // has been serialized you can do this here.
+
+		if( isFirstInit )
+        {
+            // do any init needed to be done only once here, isFirstInit only set
+            // when object is first constructed at program start.
+        }
+        // can do any initialization you might want to change here.
+	}
     void Serialize( ISimpleSerializer *pSerializer ) override
     {
 		SERIALIZE( show_demo_window );
