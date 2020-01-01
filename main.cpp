@@ -272,7 +272,7 @@ bool RCCppInit()
         return false;
     }
 
-    //g_RuntimeObjectSystem.CleanObjectFiles();
+    g_pRuntimeObjectSystem->CleanObjectFiles();
     return true;
 }
 
