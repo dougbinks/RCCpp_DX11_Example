@@ -280,6 +280,12 @@ bool RCCppInit()
     }
 
     g_pRuntimeObjectSystem->CleanObjectFiles();
+
+    // ensure include directories are set - use location of this file as starting point
+    FileSystemUtils::Path basePath = g_pRuntimeObjectSystem->FindFile( __FILE__ ).ParentPath();
+    FileSystemUtils::Path imguiIncludeDir = basePath / "imgui";
+    g_pRuntimeObjectSystem->AddIncludeDir( imguiIncludeDir.c_str() );
+
     return true;
 }
 

@@ -3,6 +3,8 @@
 #include "RCCppMainLoop.h"
 #include "SystemTable.h"
 
+#include "imgui.h"
+
 
 // RCC++ uses interface id's to distinguish between different classes
 // here we have only one, so we don't need a header for this enum and put it in the sam
