@@ -1,6 +1,7 @@
 #include "IObject.h"
 #include "RCCppMainLoop.h"
 #include "SystemTable.h"
+#include "ISimpleSerializer.h"
 
 #include "imgui.h"
 
@@ -34,11 +35,22 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
     bool   show_demo_window    = true;
     bool   show_another_window = false;
     ImVec4 clear_color         = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    float  f = 0.0f;
+    int    counter = 0;
 
 	RCCppMainLoop()
 	{
 		g_pSys->pRCCppMainLoopI = this;
 	}
+
+    void Serialize( ISimpleSerializer *pSerializer ) override
+    {
+		SERIALIZE( show_demo_window );
+        SERIALIZE( show_another_window );
+        SERIALIZE( clear_color );
+        SERIALIZE( f );
+        SERIALIZE( counter );
+    }
 
 	void MainLoop() override
 	{
@@ -57,8 +69,6 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
         {
-            static float f = 0.0f;
-            static int counter = 0;
 
             ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
