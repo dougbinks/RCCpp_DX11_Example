@@ -20,7 +20,7 @@
 #ifndef STDIOLOGSYSTEM_INCLUDED
 #define STDIOLOGSYSTEM_INCLUDED
 
-#include "../../RuntimeCompiler/ICompilerLogger.h"
+#include "ICompilerLogger.h"
 
 #include <string>
 #include <stdio.h>
