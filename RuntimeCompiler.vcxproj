@@ -104,29 +104,29 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Compiler_PlatformPosix.cpp">
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\Compiler_PlatformPosix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="FileChangeNotifier.cpp" />
-    <ClCompile Include="BuildTool.cpp" />
-    <ClCompile Include="Compiler_PlatformWindows.cpp" />
-    <ClCompile Include="SimpleFileWatcher\FileWatcher.cpp" />
-    <ClCompile Include="SimpleFileWatcher\FileWatcherLinux.cpp">
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\FileChangeNotifier.cpp" />
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\BuildTool.cpp" />
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\Compiler_PlatformWindows.cpp" />
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcher.cpp" />
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherLinux.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="SimpleFileWatcher\FileWatcherOSX.cpp">
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherOSX.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="SimpleFileWatcher\FileWatcherWin32.cpp" />
+    <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AUArray.h" />
