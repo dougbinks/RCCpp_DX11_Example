@@ -60,9 +60,6 @@ int main(int, char**)
         return 1;
     }
 
-    // Initialize RCC++
-    RCCppInit();
-
     // Show the window
     ::ShowWindow(hwnd, SW_SHOWDEFAULT);
     ::UpdateWindow(hwnd);
@@ -81,6 +78,10 @@ int main(int, char**)
     // Setup Platform/Renderer bindings
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
+
+    // Initialize RCC++
+    RCCppInit();
+
 
     // Load Fonts
     // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
@@ -273,6 +274,8 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool RCCppInit()
 {
+    g_SystemTable.pImContext = ImGui::GetCurrentContext();
+
     g_pRuntimeObjectSystem = new RuntimeObjectSystem;
 	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )
     {
