@@ -21,8 +21,8 @@ static IDXGISwapChain*          g_pSwapChain = NULL;
 static ID3D11RenderTargetView*  g_mainRenderTargetView = NULL;
 
 // RCC++ Data
-static IRuntimeObjectSystem*	m_pRuntimeObjectSystem;
-
+static RuntimeObjectSystem	    g_RuntimeObjectSystem;
+static StdioLogSystem           g_Logger;
 
 // Forward declarations of helper functions
 bool CreateDeviceD3D(HWND hWnd);
@@ -254,10 +254,8 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool RCCppInit()
 {
-    m_pRuntimeObjectSystem = new RuntimeObjectSystem;
-	if( !m_pRuntimeObjectSystem->Initialise(NULL, NULL) )
+	if( !g_RuntimeObjectSystem.Initialise(NULL, NULL) )
     {
-        m_pRuntimeObjectSystem = NULL;
         return false;
     }
     return true;
@@ -265,5 +263,4 @@ bool RCCppInit()
 
 void RCCppCleanup()
 {
-	delete m_pRuntimeObjectSystem;
 }
