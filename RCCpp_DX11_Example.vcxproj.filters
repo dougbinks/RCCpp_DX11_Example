@@ -4,6 +4,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{0587d7a3-f2ce-4d56-b84f-a0005d3bfce6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RuntimeCompiled">
+      <UniqueIdentifier>{5c572578-81af-44b4-83a2-20edc538d241}</UniqueIdentifier>
+    </Filter>
     <Filter Include="sources">
       <UniqueIdentifier>{08e36723-ce4f-4cff-9662-c40801cf1acf}</UniqueIdentifier>
     </Filter>
@@ -52,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="StdioLogSystem.cpp">
       <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="RCCppMainLoop.cpp">
+      <Filter>RuntimeCompiled</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
