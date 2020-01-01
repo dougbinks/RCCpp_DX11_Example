@@ -258,7 +258,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool RCCppInit()
 {
-	if( !g_RuntimeObjectSystem.Initialise(NULL, NULL) )
+	if( !g_RuntimeObjectSystem.Initialise(&g_Logger, NULL) )
     {
         return false;
     }
