@@ -15,8 +15,11 @@
 // RCC++ headers
 #include "RuntimeObjectSystem.h"
 
-// headers from our example our example
+// headers from our example
 #include "StdioLogSystem.h"
+#include "SystemTable.h"
+#include "RCCppMainLoop.h"
+
 
 // Data
 static ID3D11Device*            g_pd3dDevice = NULL;
@@ -27,6 +30,7 @@ static ID3D11RenderTargetView*  g_mainRenderTargetView = NULL;
 // RCC++ Data
 static RuntimeObjectSystem*	    g_pRuntimeObjectSystem;
 static StdioLogSystem           g_Logger;
+static SystemTable              g_SystemTable;
 
 // Forward declarations of helper functions
 bool CreateDeviceD3D(HWND hWnd);
@@ -122,6 +126,9 @@ int main(int, char**)
 
         // Update RCC++
         RCCppUpdate();
+
+        // Call the function in our RCC++ class
+        g_SystemTable.pRCCppMainLoopI->MainLoop();
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
@@ -267,7 +274,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 bool RCCppInit()
 {
     g_pRuntimeObjectSystem = new RuntimeObjectSystem;
-	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, NULL) )
+	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )
     {
         return false;
     }
