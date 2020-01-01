@@ -3,12 +3,16 @@
 #include "RuntimeInclude.h"
 RUNTIME_MODIFIABLE_INCLUDE; //recompile runtime files when this changes
 
+#include "ObjectInterfacePerModule.h"
+
 struct RCCppMainLoopI;
 struct ImGuiContext;
 struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct IDXGISwapChain;
 struct ID3D11RenderTargetView;
+
+static SystemTable*& g_pSys  = PerModuleInterface::g_pSystemTable;
 
 struct SystemTable
 {

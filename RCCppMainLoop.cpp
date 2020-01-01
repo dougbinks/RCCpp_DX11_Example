@@ -1,4 +1,3 @@
-#include "ObjectInterfacePerModule.h"
 #include "IObject.h"
 #include "RCCppMainLoop.h"
 #include "SystemTable.h"
@@ -38,12 +37,12 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
 	RCCppMainLoop()
 	{
-		PerModuleInterface::g_pSystemTable->pRCCppMainLoopI = this;
+		g_pSys->pRCCppMainLoopI = this;
 	}
 
 	void MainLoop() override
 	{
-		ImGui::SetCurrentContext( PerModuleInterface::g_pSystemTable->pImContext );
+		ImGui::SetCurrentContext( g_pSys->pImContext );
 
 		ImGui::SetNextWindowPos(ImVec2(50,400), ImGuiCond_Appearing );
 		ImGui::SetNextWindowSize(ImVec2(0,0), ImGuiCond_Always );
@@ -82,10 +81,8 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
         // Rendering
         ImGui::Render();
-        PerModuleInterface::g_pSystemTable->pd3dDeviceContext->OMSetRenderTargets(1,
-            &PerModuleInterface::g_pSystemTable->pMainRenderTargetView, NULL);
-        PerModuleInterface::g_pSystemTable->pd3dDeviceContext->ClearRenderTargetView(
-            PerModuleInterface::g_pSystemTable->pMainRenderTargetView, (float*)&clear_color);
+        PerModuleInterface::g_pSystemTable->pd3dDeviceContext->OMSetRenderTargets(1, &g_pSys->pMainRenderTargetView, NULL);
+        PerModuleInterface::g_pSystemTable->pd3dDeviceContext->ClearRenderTargetView( g_pSys->pMainRenderTargetView, (float*)&clear_color);
 
 	}
 };
