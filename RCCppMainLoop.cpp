@@ -5,6 +5,13 @@
 
 #include "imgui.h"
 
+// add imgui source dependencies
+// an alternative is to put imgui into a library and use RuntimeLinkLibrary
+#include "RuntimeSourceDependency.h"
+RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui", ".cpp" );
+RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_widgets", ".cpp" );
+RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_draw", ".cpp" );
+
 
 // RCC++ uses interface id's to distinguish between different classes
 // here we have only one, so we don't need a header for this enum and put it in the sam
@@ -25,6 +32,14 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
 	void MainLoop() override
 	{
+		ImGui::SetCurrentContext( PerModuleInterface::g_pSystemTable->pImContext );
+
+		ImGui::SetNextWindowPos(ImVec2(50,400), ImGuiCond_Appearing );
+		ImGui::SetNextWindowSize(ImVec2(0,0), ImGuiCond_Always );
+        ImGui::Begin("RCCppMainLoop Window" );
+        ImGui::Text("You can change Window's code at runtime!");
+        ImGui::End();
+
 	}
 };
 
