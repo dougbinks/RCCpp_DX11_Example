@@ -154,6 +154,7 @@
     <ClInclude Include="imgui\imgui_internal.h" />
     <ClInclude Include="imgui\examples\imgui_impl_dx11.h" />
     <ClInclude Include="imgui\examples\imgui_impl_win32.h" />
+    <ClInclude Include="RCCppMainLoop.h" />
     <ClInclude Include="StdioLogSystem.h" />
   </ItemGroup>
   <ItemGroup>

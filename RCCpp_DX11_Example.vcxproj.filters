@@ -30,6 +30,9 @@
     <ClInclude Include="StdioLogSystem.h">
       <Filter>sources</Filter>
     </ClInclude>
+    <ClInclude Include="RCCppMainLoop.h">
+      <Filter>RuntimeCompiled</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
