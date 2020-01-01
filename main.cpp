@@ -25,7 +25,7 @@ static IDXGISwapChain*          g_pSwapChain = NULL;
 static ID3D11RenderTargetView*  g_mainRenderTargetView = NULL;
 
 // RCC++ Data
-static RuntimeObjectSystem	    g_RuntimeObjectSystem;
+static RuntimeObjectSystem*	    g_pRuntimeObjectSystem;
 static StdioLogSystem           g_Logger;
 
 // Forward declarations of helper functions
@@ -54,6 +54,9 @@ int main(int, char**)
         ::UnregisterClass(wc.lpszClassName, wc.hInstance);
         return 1;
     }
+
+    // Initialize RCC++
+    RCCppInit();
 
     // Show the window
     ::ShowWindow(hwnd, SW_SHOWDEFAULT);
@@ -164,6 +167,7 @@ int main(int, char**)
     }
 
     // Cleanup
+    RCCppCleanup();
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
@@ -258,13 +262,17 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool RCCppInit()
 {
-	if( !g_RuntimeObjectSystem.Initialise(&g_Logger, NULL) )
+    g_pRuntimeObjectSystem = new RuntimeObjectSystem;
+	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, NULL) )
     {
         return false;
     }
+
+    //g_RuntimeObjectSystem.CleanObjectFiles();
     return true;
 }
 
 void RCCppCleanup()
 {
+    delete g_pRuntimeObjectSystem;
 }
