@@ -125,11 +125,6 @@ int main(int, char**)
 
         // Call the function in our RCC++ class
         g_SystemTable.pRCCppMainLoopI->MainLoop();
-
-        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-
-        g_pSwapChain->Present(1, 0); // Present with vsync
-        //g_pSwapChain->Present(0, 0); // Present without vsync
     }
 
     // Cleanup
@@ -233,6 +228,7 @@ bool RCCppInit()
     g_SystemTable.pd3dDeviceContext     = g_pd3dDeviceContext;
     g_SystemTable.pSwapChain            = g_pSwapChain;
     g_SystemTable.pMainRenderTargetView = g_mainRenderTargetView;
+    g_SystemTable.ImGui_ImplDX11_RenderDrawData = ImGui_ImplDX11_RenderDrawData;
 
     g_pRuntimeObjectSystem = new RuntimeObjectSystem;
 	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )

@@ -94,6 +94,11 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
         PerModuleInterface::g_pSystemTable->pd3dDeviceContext->OMSetRenderTargets(1, &g_pSys->pMainRenderTargetView, NULL);
         PerModuleInterface::g_pSystemTable->pd3dDeviceContext->ClearRenderTargetView( g_pSys->pMainRenderTargetView, (float*)&clear_color);
 
+        g_pSys->ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+        g_pSys->pSwapChain->Present(1, 0); // Present with vsync
+        //g_pSys->pSwapChain->Present(0, 0); // Present without vsync
+
+
 	}
 };
 
