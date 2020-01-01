@@ -19,32 +19,32 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileChangeNotifier.h" />
-    <ClInclude Include="BuildTool.h" />
-    <ClInclude Include="Compiler.h" />
-    <ClInclude Include="IFileChangeNotifier.h" />
-    <ClInclude Include="ICompilerLogger.h" />
-    <ClInclude Include="SimpleFileWatcher\FileWatcher.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\FileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\BuildTool.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\Compiler.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\IFileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\ICompilerLogger.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcher.h">
       <Filter>SimpleFileWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleFileWatcher\FileWatcherImpl.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherImpl.h">
       <Filter>SimpleFileWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleFileWatcher\FileWatcherWin32.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherWin32.h">
       <Filter>SimpleFileWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="FileSystemUtils.h" />
-    <ClInclude Include="SimpleFileWatcher\FileWatcherWin32_AltImpl.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\FileSystemUtils.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherWin32_AltImpl.h">
       <Filter>SimpleFileWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="CompileOptions.h" />
-    <ClInclude Include="SimpleFileWatcher\FileWatcherLinux.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\CompileOptions.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherLinux.h">
       <Filter>SimpleFileWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleFileWatcher\FileWatcherOSX.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherOSX.h">
       <Filter>SimpleFileWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="AUArray.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\AUArray.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SimpleFileWatcher">

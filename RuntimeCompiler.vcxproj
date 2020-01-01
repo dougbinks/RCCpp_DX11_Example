@@ -129,30 +129,30 @@
     <ClCompile Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AUArray.h" />
-    <ClInclude Include="CompileOptions.h" />
-    <ClInclude Include="FileChangeNotifier.h" />
-    <ClInclude Include="BuildTool.h" />
-    <ClInclude Include="Compiler.h" />
-    <ClInclude Include="FileSystemUtils.h" />
-    <ClInclude Include="IFileChangeNotifier.h" />
-    <ClInclude Include="ICompilerLogger.h" />
-    <ClInclude Include="SimpleFileWatcher\FileWatcher.h" />
-    <ClInclude Include="SimpleFileWatcher\FileWatcherImpl.h" />
-    <ClInclude Include="SimpleFileWatcher\FileWatcherLinux.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\AUArray.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\CompileOptions.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\FileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\BuildTool.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\Compiler.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\FileSystemUtils.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\IFileChangeNotifier.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\ICompilerLogger.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcher.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherImpl.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherLinux.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="SimpleFileWatcher\FileWatcherOSX.h">
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherOSX.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="SimpleFileWatcher\FileWatcherWin32.h" />
-    <ClInclude Include="SimpleFileWatcher\FileWatcherWin32_AltImpl.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherWin32.h" />
+    <ClInclude Include="RuntimeCompiledCPlusPlus\Aurora\RuntimeCompiler\SimpleFileWatcher\FileWatcherWin32_AltImpl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
