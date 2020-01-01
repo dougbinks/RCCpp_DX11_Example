@@ -38,6 +38,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Forward declarations of RCC++ helper functions
 bool RCCppInit();
 void RCCppCleanup();
+void RCCppUpdate();
 
 // Main code
 int main(int, char**)
@@ -118,6 +119,9 @@ int main(int, char**)
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+
+        // Update RCC++
+        RCCppUpdate();
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
@@ -275,4 +279,20 @@ bool RCCppInit()
 void RCCppCleanup()
 {
     delete g_pRuntimeObjectSystem;
+}
+
+void RCCppUpdate()
+{
+	//check status of any compile
+	if( g_pRuntimeObjectSystem->GetIsCompiledComplete() )
+	{
+		// load module when compile complete
+		g_pRuntimeObjectSystem->LoadCompiledModule();
+	}
+
+	if( !g_pRuntimeObjectSystem->GetIsCompiling() )
+	{
+		float deltaTime = 1.0f / ImGui::GetIO().Framerate;
+		g_pRuntimeObjectSystem->GetFileChangeNotifier()->Update( deltaTime );
+	}
 }
