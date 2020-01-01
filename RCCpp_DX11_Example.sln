@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RCCpp_DX11_Example", "RCCpp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RuntimeObjectSystem", "RuntimeObjectSystem.vcxproj", "{FA4E24F1-885C-406B-89A8-436F28D090B2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RuntimeCompiler", "RuntimeCompiler.vcxproj", "{790D95ED-C6E6-24E5-345B-37FB1E098082}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{FA4E24F1-885C-406B-89A8-436F28D090B2}.Release|x64.Build.0 = Release|x64
 		{FA4E24F1-885C-406B-89A8-436F28D090B2}.Release|x86.ActiveCfg = Release|Win32
 		{FA4E24F1-885C-406B-89A8-436F28D090B2}.Release|x86.Build.0 = Release|Win32
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Debug|x64.ActiveCfg = Debug|x64
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Debug|x64.Build.0 = Debug|x64
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Debug|x86.ActiveCfg = Debug|Win32
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Debug|x86.Build.0 = Debug|Win32
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Release|x64.ActiveCfg = Release|x64
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Release|x64.Build.0 = Release|x64
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Release|x86.ActiveCfg = Release|Win32
+		{790D95ED-C6E6-24E5-345B-37FB1E098082}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
