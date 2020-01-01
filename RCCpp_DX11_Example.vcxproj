@@ -156,6 +156,7 @@
     <ClInclude Include="imgui\examples\imgui_impl_win32.h" />
     <ClInclude Include="RCCppMainLoop.h" />
     <ClInclude Include="StdioLogSystem.h" />
+    <ClInclude Include="SystemTable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp" />

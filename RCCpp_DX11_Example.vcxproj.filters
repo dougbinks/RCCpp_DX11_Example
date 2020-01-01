@@ -33,6 +33,9 @@
     <ClInclude Include="RCCppMainLoop.h">
       <Filter>RuntimeCompiled</Filter>
     </ClInclude>
+    <ClInclude Include="SystemTable.h">
+      <Filter>RuntimeCompiled</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp">
