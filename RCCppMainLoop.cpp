@@ -6,6 +6,8 @@
 // have a system pointer
 // However functions, such as D3D11CreateDeviceAndSwapChain require the
 // library to be included
+#include "RuntimeLinkLibrary.h"
+RUNTIME_COMPILER_LINKLIBRARY( "d3d11.lib" ); // we don't need to IRuntimeObjectSystem::AddLibraryDir as system lib
 #include <d3d11.h>
 #define DIRECTINPUT_VERSION 0x0800
 
