@@ -14,6 +14,7 @@ RUNTIME_COMPILER_LINKLIBRARY( "d3d11.lib" ); // we don't need to IRuntimeObjectS
 #include "IObject.h"
 #include "SystemTable.h"
 #include "ISimpleSerializer.h"
+#include "IRuntimeObjectSystem.h"
 
 
 // add imgui source dependencies
@@ -44,6 +45,12 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
     float  f                   = 0.0f;
     int    counter             = 0;
 
+    // data for compiling window
+    static constexpr double SHOW_AFTER_COMPILE_TIME = 3.0f;
+    double compileStartTime    = -SHOW_AFTER_COMPILE_TIME;
+    double compileEndTime      = -SHOW_AFTER_COMPILE_TIME;
+    unsigned int compiledModules = 0;
+
 	RCCppMainLoop()
 	{
 		g_pSys->pRCCppMainLoopI = this;
@@ -69,6 +76,8 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
         SERIALIZE( clear_color );
         SERIALIZE( f );
         SERIALIZE( counter );
+        SERIALIZE( compileStartTime );
+        SERIALIZE( compileEndTime );
     }
 
 	void MainLoop() override
@@ -105,6 +114,60 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             ImGui::End();
+        }
+
+        // Show a compiling info
+        double time = ImGui::GetTime();
+        bool bCompiling = g_pSys->pRuntimeObjectSystem->GetIsCompiling();
+        double timeSinceLastCompile = time - compileEndTime;
+        if( bCompiling  || timeSinceLastCompile < SHOW_AFTER_COMPILE_TIME )
+        {
+            if( bCompiling )
+            {
+                if( timeSinceLastCompile > SHOW_AFTER_COMPILE_TIME )
+                {
+                    compileStartTime = time;
+                }
+                compileEndTime = time; // ensure always updated
+            }
+            bool bCompileOk = g_pSys->pRuntimeObjectSystem->GetLastLoadModuleSuccess();
+
+            ImVec4 windowBgCol = ImVec4(0.1f,0.4f,0.1f,1.0f);
+            if( !bCompiling )
+            {
+                if( bCompileOk )
+                {
+                    windowBgCol = ImVec4(0.1f,0.7f,0.1f,1.0f);
+                }
+                else
+                {
+                    windowBgCol = ImVec4(0.7f,0.1f,0.1f,1.0f);
+                }
+            }
+            ImGui::PushStyleColor(ImGuiCol_WindowBg,windowBgCol);
+
+            ImVec2 sizeAppWindow = ImGui::GetIO().DisplaySize;
+            ImGui::SetNextWindowPos(ImVec2( sizeAppWindow.x - 300, sizeAppWindow.y - 50), ImGuiCond_Always );
+		    ImGui::SetNextWindowSize(ImVec2(280,0), ImGuiCond_Always );
+            ImGui::Begin("Compiling", NULL, ImGuiWindowFlags_NoTitleBar );
+            if( bCompiling )
+            {
+                ImGui::Text("Compiling... time %.2fs", (float)(time - compileStartTime) );
+            }
+            else
+            {
+                if( bCompileOk )
+                {
+                    ImGui::Text("Compiling... time %.2fs. SUCCEED", (float)(compileEndTime - compileStartTime) );
+                }
+                else
+                {
+                    ImGui::Text("Compiling... time %.2fs. FAILED", (float)(compileEndTime - compileStartTime) );
+                }
+            }
+            ImGui::End();
+            ImGui::PopStyleColor();
+
         }
 
 
