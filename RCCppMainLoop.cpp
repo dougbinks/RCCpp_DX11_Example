@@ -1,9 +1,18 @@
-#include "IObject.h"
 #include "RCCppMainLoop.h"
+
+#include "imgui.h"
+
+// D3D11 has a virtual interace, so we only need to include the header and
+// have a system pointer
+// However functions, such as D3D11CreateDeviceAndSwapChain require the
+// library to be included
+#include <d3d11.h>
+#define DIRECTINPUT_VERSION 0x0800
+
+#include "IObject.h"
 #include "SystemTable.h"
 #include "ISimpleSerializer.h"
 
-#include "imgui.h"
 
 // add imgui source dependencies
 // an alternative is to put imgui into a library and use RuntimeLinkLibrary
@@ -12,10 +21,6 @@ RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui", ".cpp" );
 RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_widgets", ".cpp" );
 RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_draw", ".cpp" );
 RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_demo", ".cpp" );
-
-// D3D11 has a virtual interace, so we only need to include the header and
-// have a system pointer.
-#include <d3d11.h>
 
 
 // RCC++ uses interface id's to distinguish between different classes
@@ -110,6 +115,58 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
         g_pSys->pSwapChain->Present(1, 0); // Present with vsync
         //g_pSys->pSwapChain->Present(0, 0); // Present without vsync
 	}
+
+    bool CreateDeviceD3D(void* hWnd) override
+    {
+        // Setup swap chain
+        DXGI_SWAP_CHAIN_DESC sd;
+        ZeroMemory(&sd, sizeof(sd));
+        sd.BufferCount = 2;
+        sd.BufferDesc.Width = 0;
+        sd.BufferDesc.Height = 0;
+        sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        sd.BufferDesc.RefreshRate.Numerator = 60;
+        sd.BufferDesc.RefreshRate.Denominator = 1;
+        sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+        sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+        sd.OutputWindow = (HWND)hWnd;
+        sd.SampleDesc.Count = 1;
+        sd.SampleDesc.Quality = 0;
+        sd.Windowed = TRUE;
+        sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+
+        UINT createDeviceFlags = 0;
+        //createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+        D3D_FEATURE_LEVEL featureLevel;
+        const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
+        if (D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &g_pSys->pSwapChain, &g_pSys->pd3dDevice, &featureLevel, &g_pSys->pd3dDeviceContext) != S_OK)
+            return false;
+
+        CreateRenderTarget();
+        return true;
+    }
+
+    void CleanupDeviceD3D() override
+    {
+        CleanupRenderTarget();
+        if (g_pSys->pSwapChain) { g_pSys->pSwapChain->Release(); g_pSys->pSwapChain = NULL; }
+        if (g_pSys->pd3dDeviceContext) { g_pSys->pd3dDeviceContext->Release(); g_pSys->pd3dDeviceContext = NULL; }
+        if (g_pSys->pd3dDevice) { g_pSys->pd3dDevice->Release(); g_pSys->pd3dDevice = NULL; }
+    }
+
+    void CreateRenderTarget() override
+    {
+        ID3D11Texture2D* pBackBuffer;
+        g_pSys->pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+        g_pSys->pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_pSys->pMainRenderTargetView);
+        pBackBuffer->Release();
+    }
+
+    void CleanupRenderTarget() override
+    {
+        if (g_pSys->pMainRenderTargetView) { g_pSys->pMainRenderTargetView->Release(); g_pSys->pMainRenderTargetView = NULL; }
+    }
+
 };
 
 REGISTERSINGLETON(RCCppMainLoop,true);

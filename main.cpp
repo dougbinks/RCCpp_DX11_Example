@@ -26,10 +26,6 @@ static StdioLogSystem           g_Logger;
 static SystemTable              g_SystemTable;
 
 // Forward declarations of helper functions
-bool CreateDeviceD3D(HWND hWnd);
-void CleanupDeviceD3D();
-void CreateRenderTarget();
-void CleanupRenderTarget();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // Forward declarations of RCC++ helper functions
@@ -45,10 +41,13 @@ int main(int, char**)
     ::RegisterClassEx(&wc);
     HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX11 Example"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
+    // Initialize RCC++
+    RCCppInit();
+
     // Initialize Direct3D
-    if (!CreateDeviceD3D(hwnd))
+    if (!g_SystemTable.pRCCppMainLoopI->CreateDeviceD3D(hwnd))
     {
-        CleanupDeviceD3D();
+        g_SystemTable.pRCCppMainLoopI->CleanupDeviceD3D();
         ::UnregisterClass(wc.lpszClassName, wc.hInstance);
         return 1;
     }
@@ -72,8 +71,10 @@ int main(int, char**)
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX11_Init(g_SystemTable.pd3dDevice, g_SystemTable.pd3dDeviceContext);
 
-    // Initialize RCC++
-    RCCppInit();
+    // set system table variables for ImGui and ImGui_Impl
+    g_SystemTable.pImContext = ImGui::GetCurrentContext();
+    g_SystemTable.ImGui_ImplDX11_RenderDrawData = ImGui_ImplDX11_RenderDrawData;
+
 
 
     // Load Fonts
@@ -126,65 +127,13 @@ int main(int, char**)
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 
-    CleanupDeviceD3D();
+    g_SystemTable.pRCCppMainLoopI->CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
     ::UnregisterClass(wc.lpszClassName, wc.hInstance);
 
     return 0;
 }
 
-// Helper functions
-
-bool CreateDeviceD3D(HWND hWnd)
-{
-    // Setup swap chain
-    DXGI_SWAP_CHAIN_DESC sd;
-    ZeroMemory(&sd, sizeof(sd));
-    sd.BufferCount = 2;
-    sd.BufferDesc.Width = 0;
-    sd.BufferDesc.Height = 0;
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    sd.BufferDesc.RefreshRate.Numerator = 60;
-    sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    sd.OutputWindow = hWnd;
-    sd.SampleDesc.Count = 1;
-    sd.SampleDesc.Quality = 0;
-    sd.Windowed = TRUE;
-    sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-
-    UINT createDeviceFlags = 0;
-    //createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-    D3D_FEATURE_LEVEL featureLevel;
-    const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
-    if (D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &g_SystemTable.pSwapChain, &g_SystemTable.pd3dDevice, &featureLevel, &g_SystemTable.pd3dDeviceContext) != S_OK)
-        return false;
-
-    CreateRenderTarget();
-    return true;
-}
-
-void CleanupDeviceD3D()
-{
-    CleanupRenderTarget();
-    if (g_SystemTable.pSwapChain) { g_SystemTable.pSwapChain->Release(); g_SystemTable.pSwapChain = NULL; }
-    if (g_SystemTable.pd3dDeviceContext) { g_SystemTable.pd3dDeviceContext->Release(); g_SystemTable.pd3dDeviceContext = NULL; }
-    if (g_SystemTable.pd3dDevice) { g_SystemTable.pd3dDevice->Release(); g_SystemTable.pd3dDevice = NULL; }
-}
-
-void CreateRenderTarget()
-{
-    ID3D11Texture2D* pBackBuffer;
-    g_SystemTable.pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-    g_SystemTable.pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_SystemTable.pMainRenderTargetView);
-    pBackBuffer->Release();
-}
-
-void CleanupRenderTarget()
-{
-    if (g_SystemTable.pMainRenderTargetView) { g_SystemTable.pMainRenderTargetView->Release(); g_SystemTable.pMainRenderTargetView = NULL; }
-}
 
 // Win32 message handler
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -198,9 +147,9 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_SIZE:
         if (g_SystemTable.pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
         {
-            CleanupRenderTarget();
+            g_SystemTable.pRCCppMainLoopI->CleanupRenderTarget();
             g_SystemTable.pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
-            CreateRenderTarget();
+            g_SystemTable.pRCCppMainLoopI->CreateRenderTarget();
         }
         return 0;
     case WM_SYSCOMMAND:
@@ -216,9 +165,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 bool RCCppInit()
 {
-    g_SystemTable.pImContext = ImGui::GetCurrentContext();
-    g_SystemTable.ImGui_ImplDX11_RenderDrawData = ImGui_ImplDX11_RenderDrawData;
-
     g_pRuntimeObjectSystem = new RuntimeObjectSystem;
 	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )
     {
