@@ -11,6 +11,8 @@ struct ID3D11Device;
 struct ID3D11DeviceContext;
 struct IDXGISwapChain;
 struct ID3D11RenderTargetView;
+struct IRuntimeObjectSystem;
+struct ICompilerLogger;
 
 struct ImDrawData;
 typedef void (*ImGui_ImplDX11_RenderDrawDataFunc)( ImDrawData* draw_data );
@@ -27,4 +29,6 @@ struct SystemTable
     IDXGISwapChain*                    pSwapChain                    = NULL;
     ID3D11RenderTargetView*            pMainRenderTargetView         = NULL;
     ImGui_ImplDX11_RenderDrawDataFunc  ImGui_ImplDX11_RenderDrawData = NULL;
+    IRuntimeObjectSystem*              pRuntimeObjectSystem          = NULL;
+    ICompilerLogger*                   pLogger                       = NULL;
 };
