@@ -18,7 +18,6 @@ RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_demo", ".cpp" );
 #include <d3d11.h>
 
 
-
 // RCC++ uses interface id's to distinguish between different classes
 // here we have only one, so we don't need a header for this enum and put it in the sam
 // source code file as the rest of the code
@@ -35,8 +34,8 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
     bool   show_demo_window    = true;
     bool   show_another_window = false;
     ImVec4 clear_color         = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    float  f = 0.0f;
-    int    counter = 0;
+    float  f                   = 0.0f;
+    int    counter             = 0;
 
 	RCCppMainLoop()
 	{
@@ -55,6 +54,7 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
         }
         // can do any initialization you might want to change here.
 	}
+
     void Serialize( ISimpleSerializer *pSerializer ) override
     {
 		SERIALIZE( show_demo_window );
@@ -103,14 +103,12 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
         // Rendering
         ImGui::Render();
-        PerModuleInterface::g_pSystemTable->pd3dDeviceContext->OMSetRenderTargets(1, &g_pSys->pMainRenderTargetView, NULL);
-        PerModuleInterface::g_pSystemTable->pd3dDeviceContext->ClearRenderTargetView( g_pSys->pMainRenderTargetView, (float*)&clear_color);
+        g_pSys->pd3dDeviceContext->OMSetRenderTargets(1, &g_pSys->pMainRenderTargetView, NULL);
+        g_pSys->pd3dDeviceContext->ClearRenderTargetView( g_pSys->pMainRenderTargetView, (float*)&clear_color);
 
         g_pSys->ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
         g_pSys->pSwapChain->Present(1, 0); // Present with vsync
         //g_pSys->pSwapChain->Present(0, 0); // Present without vsync
-
-
 	}
 };
 
