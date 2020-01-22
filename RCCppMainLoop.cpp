@@ -3,11 +3,12 @@
 #include "imgui.h"
 
 // D3D11 has a virtual interace, so we only need to include the header and
-// have a system pointer
+// have a system pointer.
 // However functions, such as D3D11CreateDeviceAndSwapChain require the
-// library to be included
+// library to be included.
+// We don't need to use IRuntimeObjectSystem::AddLibraryDir as this is a system lib.
 #include "RuntimeLinkLibrary.h"
-RUNTIME_COMPILER_LINKLIBRARY( "d3d11.lib" ); // we don't need to IRuntimeObjectSystem::AddLibraryDir as system lib
+RUNTIME_COMPILER_LINKLIBRARY( "d3d11.lib" ); 
 #include <d3d11.h>
 #define DIRECTINPUT_VERSION 0x0800
 
