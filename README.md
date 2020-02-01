@@ -3,6 +3,8 @@ Support development of RCC++ through [Github Sponsors](https://github.com/sponso
 [<img src="https://img.shields.io/static/v1?logo=github&label=Github&message=Sponsor&color=#ea4aaa" width="200"/>](https://github.com/sponsors/dougbinks)    [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" alt="Become a Patron" width="150"/>](https://www.patreon.com/enkisoftware)
 
 # RuntimeCompiledCPlusPlus Dear ImGui and DirectX11 Tutorial
+You can also find this tutorial in the devlog post [Runtime Compiled C++ Dear ImGui and DirectX11 Tutorial](https://www.enkisoftware.com/devlogpost-20200202-1-Runtime-Compiled-C++-Dear-ImGui-and-DirectX11-Tutorial).
+
 This tutorial takes a small DirectX11 project, the Dear ImGui Example, and adds Runtime Compiled C++ to it. This enables us to edit the code at runtime and see the results live, without recompiling and restarting the project. 
 
 This is a Windows only project but both Dear ImGui and Runtime Compiled C++ are cross platform. Thanks to Jonathan Bleeker and [Milviz](https://milviz.com/flight/index.php) for funding this tutorial.
@@ -16,7 +18,7 @@ RCC++ is primarily designed to shorten iteration times in development - develope
 ## Getting the tutorial code
 The complete finished code for this tutorial, including Dear ImGui and RuntimeCompiledCPlusPlus can be found on [Github as RCCpp_DX11_Example](https://github.com/dougbinks/RCCpp_DX11_Example). Each chapter of the tutorial has a branch with the changes up to that point, so the implementation can be followed step by step.
 
-[RCC++ Dear ImGui and DirectX Tutorial Video Part 1: Introduction and Getting the Code](https://youtu.be/5lOOLHmQPBU)
+[RCC++ Dear ImGui and DirectX Tutorial Video Part 1: Introduction and Getting the Code](https://www.youtube.com/watch?v=5lOOLHmQPBU&list=PLOV2v_nVCDf5tyP3mc1G7vMb7TWVhxDIA)
 
 The easiest way to get hold of the example code if you have git is to run the following command using a shell you can run git:
 
@@ -60,7 +62,7 @@ This is somewhat tedious so I recommend you skip to the next chapter - if you're
 git checkout Project_Setup
 ```
 
-[RCC++ Dear ImGui and DirectX Tutorial Video Part 2: Project Setup](https://youtu.be/DjUXy8omAbA)
+[RCC++ Dear ImGui and DirectX Tutorial Video Part 2: Project Setup](https://www.youtube.com/watch?v=DjUXy8omAbA&list=PLOV2v_nVCDf5tyP3mc1G7vMb7TWVhxDIA)
 
 For detailed steps see the [repo commit history on branch  Project_Setup](https://github.com/dougbinks/RCCpp_DX11_Example/commits/Project_Setup).
 
@@ -99,7 +101,7 @@ The code up to this point is available in the example from the branch Project_Se
 ## Working RCC++
 The next step after the project setup is to get RCC++ working with the minimal code required.
 
-[RCC++ Dear ImGui and DirectX Tutorial Video Part 3: Working RCC++](https://youtu.be/6naS0dzZOtg)
+[RCC++ Dear ImGui and DirectX Tutorial Video Part 3: Working RCC++](https://www.youtube.com/watch?v=6naS0dzZOtg&list=PLOV2v_nVCDf5tyP3mc1G7vMb7TWVhxDIA)
 
 For detailed steps take a look at the  [repo commit history on branch  Working_RCC++](https://github.com/dougbinks/RCCpp_DX11_Example/commits/Working_RCC++). 
 
@@ -201,7 +203,7 @@ The code up to this point is available in the example from the branch Working_RC
 ## Working Dear ImGui with RCC++
 Now that we have a working runtime compiled file, we add code to use Dear ImGui and call that from main.cpp.
 
-[RCC++ Dear ImGui and DirectX Tutorial Video Part 4: Dear ImGui with RCC++](https://youtu.be/rOiU3izL41k)
+[RCC++ Dear ImGui and DirectX Tutorial Video Part 4: Dear ImGui with RCC++](https://www.youtube.com/watch?v=rOiU3izL41k&list=PLOV2v_nVCDf5tyP3mc1G7vMb7TWVhxDIA)
 
 For detailed steps see the [repo commit history on branch  RCC++_With_ImGui](https://github.com/dougbinks/RCCpp_DX11_Example/commits/RCC++_With_ImGui). 
 
@@ -339,7 +341,7 @@ The code up to this point is available in the example from the branch RCC++_With
 ## Using DirectX with RCC++: part 1
 For detailed steps take a look at the [repo commit history up to branch RCC++_With_D3D](https://github.com/dougbinks/RCCpp_DX11_Example/commits/RCC++_With_D3D).
 
-[RCC++ Dear ImGui and DirectX Tutorial Video Part 5: Using DirectX with RCC++](https://youtu.be/ut9yYSnFTCk)
+[RCC++ Dear ImGui and DirectX Tutorial Video Part 5: Using DirectX with RCC++](https://www.youtube.com/watch?v=ut9yYSnFTCk&list=PLOV2v_nVCDf5tyP3mc1G7vMb7TWVhxDIA)
 
 Most DirectX functionality uses interfaces (abstract base classes using pure virtual functions), which can be used without linking to a library. This means that passing a pointer and including a header is all that's needed to use them with RCC++, which can be done through the SystemTable.
 
