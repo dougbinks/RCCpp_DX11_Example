@@ -1,3 +1,7 @@
+Support development of RCC++ through [Github Sponsors](https://github.com/sponsors/dougbinks) or [Patreon](https://www.patreon.com/enkisoftware)
+
+[<img src="https://img.shields.io/static/v1?logo=github&label=Github&message=Sponsor&color=#ea4aaa" width="200"/>](https://github.com/sponsors/dougbinks)    [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" alt="Become a Patron" width="150"/>](https://www.patreon.com/enkisoftware)
+
 # RuntimeCompiledCPlusPlus Dear ImGui and DirectX11 Tutorial
 This tutorial takes a small DirectX11 project, the Dear ImGui Example, and adds Runtime Compiled C++ to it. This enables us to edit the code at runtime and see the results live, without recompiling and restarting the project. 
 
