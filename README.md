@@ -15,6 +15,8 @@ https://github.com/RuntimeCompiledCPlusPlus/RuntimeCompiledCPlusPlus
 
 RCC++ is primarily designed to shorten iteration times in development - developers can build their project, run it, make changes during runtime and see the results in a few seconds.
 
+![Short teaser of Runtime Compiled C++ Dear ImGui and DirectX11 Example](https://github.com/dougbinks/images/blob/master/RCCpp_DX11_Example_ShortTeaser.gif)
+
 ## Getting the tutorial code
 The complete finished code for this tutorial, including Dear ImGui and RuntimeCompiledCPlusPlus can be found on [Github as RCCpp_DX11_Example](https://github.com/dougbinks/RCCpp_DX11_Example). Each chapter of the tutorial has a branch with the changes up to that point, so the implementation can be followed step by step.
 
