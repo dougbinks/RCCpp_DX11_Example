@@ -1,3 +1,5 @@
 .vs/
 build/
 imgui.ini
+*.vcxproj.user
+Runtime
