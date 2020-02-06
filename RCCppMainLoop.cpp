@@ -16,6 +16,7 @@ RUNTIME_COMPILER_LINKLIBRARY( "d3d11.lib" );
 #include "SystemTable.h"
 #include "ISimpleSerializer.h"
 #include "IRuntimeObjectSystem.h"
+#include "IObjectFactorySystem.h"
 
 
 // add imgui source dependencies
@@ -32,9 +33,9 @@ RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE( "imgui/imgui_demo", ".cpp" );
 // source code file as the rest of the code
 enum InterfaceIDEnumConsoleExample
 {
-	IID_IRCCPP_MAIN_LOOP = IID_ENDInterfaceID, // IID_ENDInterfaceID from IObject.h InterfaceIDEnum
+    IID_IRCCPP_MAIN_LOOP = IID_ENDInterfaceID, // IID_ENDInterfaceID from IObject.h InterfaceIDEnum
 
-	IID_ENDInterfaceIDEnumConsoleExample
+    IID_ENDInterfaceIDEnumConsoleExample
 };
 
 struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
@@ -52,27 +53,28 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
     double compileEndTime      = -SHOW_AFTER_COMPILE_TIME;
     unsigned int compiledModules = 0;
 
-	RCCppMainLoop()
-	{
-		g_pSys->pRCCppMainLoopI = this;
-	}
+    RCCppMainLoop()
+    {
+        g_pSys->pRCCppMainLoopI = this;
+        g_pSys->pRuntimeObjectSystem->GetObjectFactorySystem()->SetObjectConstructorHistorySize( 10 );
+    }
 
-	void Init( bool isFirstInit ) override
-	{
+    void Init( bool isFirstInit ) override
+    {
         // If you want to do any initialization which is expensive and done after state
         // has been serialized you can do this here.
 
-		if( isFirstInit )
+        if( isFirstInit )
         {
             // do any init needed to be done only once here, isFirstInit only set
             // when object is first constructed at program start.
         }
         // can do any initialization you might want to change here.
-	}
+    }
 
     void Serialize( ISimpleSerializer *pSerializer ) override
     {
-		SERIALIZE( show_demo_window );
+        SERIALIZE( show_demo_window );
         SERIALIZE( show_another_window );
         SERIALIZE( clear_color );
         SERIALIZE( f );
@@ -81,17 +83,17 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
         SERIALIZE( compileEndTime );
     }
 
-	void MainLoop() override
-	{
-		ImGui::SetCurrentContext( g_pSys->pImContext );
+    void MainLoop() override
+    {
+        ImGui::SetCurrentContext( g_pSys->pImContext );
 
-		ImGui::SetNextWindowPos(ImVec2(50,400), ImGuiCond_Appearing );
-		ImGui::SetNextWindowSize(ImVec2(0,0), ImGuiCond_Always );
+        ImGui::SetNextWindowPos(ImVec2(50,400), ImGuiCond_Appearing );
+        ImGui::SetNextWindowSize(ImVec2(0,0), ImGuiCond_Always );
         ImGui::Begin("RCCppMainLoop Window" );
         ImGui::Text("You can change Window's code at runtime!");
         ImGui::End();
 
-		
+        
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
@@ -117,7 +119,7 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
             ImGui::End();
         }
 
-        // Show a compiling info
+        // Show compiling info
         double time = ImGui::GetTime();
         bool bCompiling = g_pSys->pRuntimeObjectSystem->GetIsCompiling();
         double timeSinceLastCompile = time - compileEndTime;
@@ -149,7 +151,7 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
             ImVec2 sizeAppWindow = ImGui::GetIO().DisplaySize;
             ImGui::SetNextWindowPos(ImVec2( sizeAppWindow.x - 300, sizeAppWindow.y - 50), ImGuiCond_Always );
-		    ImGui::SetNextWindowSize(ImVec2(280,0), ImGuiCond_Always );
+            ImGui::SetNextWindowSize(ImVec2(280,0), ImGuiCond_Always );
             ImGui::Begin("Compiling", NULL, ImGuiWindowFlags_NoTitleBar );
             if( bCompiling )
             {
@@ -168,9 +170,56 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
             }
             ImGui::End();
             ImGui::PopStyleColor();
-
         }
 
+        // Developer tools window
+        bool doRCCppUndo = false;
+        bool doRCCppRedo = false;
+
+        ImVec2 sizeAppWindow = ImGui::GetIO().DisplaySize;
+        ImGui::SetNextWindowPos( ImVec2(20,20), ImGuiCond_Appearing );
+        ImGui::SetNextWindowSize(ImVec2(200,0), ImGuiCond_Always );
+
+        ImGui::Begin( "RCC++ Developer Tools" );
+        {
+            bool bAutoCompile = g_pSys->pRuntimeObjectSystem->GetAutoCompile();
+            if(ImGui::Checkbox( "Auto Compile", &bAutoCompile ))
+            {
+                g_pSys->pRuntimeObjectSystem->SetAutoCompile( bAutoCompile );
+            } if (ImGui::IsItemHovered()) ImGui::SetTooltip( "Compilation is triggered by saving a runtime compiled file." );
+
+            ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing();
+            ImGui::Text( "Optimization" ); ImGui::Spacing();
+            int optLevel = g_pSys->pRuntimeObjectSystem->GetOptimizationLevel();
+            ImGui::RadioButton( "Default", &optLevel, 0 );
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip( "RCCPPOPTIMIZATIONLEVEL_DEBUG in DEBUG, RCCPPOPTIMIZATIONLEVEL_PERF in RELEASE.\nThis is the default state." );
+            ImGui::RadioButton( "Debug", &optLevel, 1 ); 
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip( "RCCPPOPTIMIZATIONLEVEL_DEBUG\nDefault in DEBUG.\nLow optimization, improve debug experiece." );
+            ImGui::RadioButton( "Performance", &optLevel, 2 ); 
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip( "RCCPPOPTIMIZATIONLEVEL_PERF\nDefaul in RELEASE.\nOptimization for performance, debug experience may suffer." );
+            ImGui::RadioButton( "Not Set", &optLevel, 3 ); 
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip( "No optimization set in compile, soeither underlying compiler default or set through SetAdditionalCompileOptions." );
+            g_pSys->pRuntimeObjectSystem->SetOptimizationLevel( (RCppOptimizationLevel)optLevel );
+
+            ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing();
+
+            if(ImGui::Button( "Clean" ))
+            {
+                g_pSys->pRuntimeObjectSystem->CleanObjectFiles();
+            } if (ImGui::IsItemHovered()) ImGui::SetTooltip( "Remove all compiled intermediates." );
+
+            ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing();
+
+            if(ImGui::Button( "Undo" ))
+            {
+                doRCCppUndo = true;
+            } if (ImGui::IsItemHovered()) ImGui::SetTooltip( "Undo the last save." ); ImGui::SameLine();
+            if(ImGui::Button( "Redo" ))
+            {
+                doRCCppRedo = true;
+            } if (ImGui::IsItemHovered()) ImGui::SetTooltip( "Redo the last save." );
+        }
+        ImGui::End();
 
         // Rendering
         ImGui::Render();
@@ -180,7 +229,17 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
         g_pSys->ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
         g_pSys->pSwapChain->Present(1, 0); // Present with vsync
         //g_pSys->pSwapChain->Present(0, 0); // Present without vsync
-	}
+
+        // Do not add any code after this point as Undo/Redo will delete this
+        if( doRCCppUndo )
+        {
+            g_pSys->pRuntimeObjectSystem->GetObjectFactorySystem()->UndoObjectConstructorChange();
+        }
+        if( doRCCppRedo )
+        {
+            g_pSys->pRuntimeObjectSystem->GetObjectFactorySystem()->RedoObjectConstructorChange();
+        }
+    }
 
     bool CreateDeviceD3D(void* hWnd) override
     {
