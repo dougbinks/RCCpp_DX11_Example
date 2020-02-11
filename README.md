@@ -1,4 +1,4 @@
-Support development of RCC++ through [Github Sponsors](https://github.com/sponsors/dougbinks) or [Patreon](https://www.patreon.com/enkisoftware)
+Support development of RCC++ through [GitHub Sponsors](https://github.com/sponsors/dougbinks) or [Patreon](https://www.patreon.com/enkisoftware)
 
 [<img src="https://img.shields.io/static/v1?logo=github&label=Github&message=Sponsor&color=#ea4aaa" width="200"/>](https://github.com/sponsors/dougbinks)    [<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" alt="Become a Patron" width="150"/>](https://www.patreon.com/enkisoftware)
 
@@ -18,9 +18,9 @@ RCC++ is primarily designed to shorten iteration times in development - develope
 ![Short teaser of Runtime Compiled C++ Dear ImGui and DirectX11 Example](https://github.com/dougbinks/images/blob/master/RCCpp_DX11_Example_ShortTeaser.gif)
 
 ## Getting the tutorial code
-The complete finished code for this tutorial, including Dear ImGui and RuntimeCompiledCPlusPlus can be found on [Github as RCCpp_DX11_Example](https://github.com/dougbinks/RCCpp_DX11_Example). Each chapter of the tutorial has a branch with the changes up to that point, so the implementation can be followed step by step.
+The complete finished code for this tutorial, including Dear ImGui and RuntimeCompiledCPlusPlus can be found on [GitHub as RCCpp_DX11_Example](https://github.com/dougbinks/RCCpp_DX11_Example). Each chapter of the tutorial has a branch with the changes up to that point, so the implementation can be followed step by step.
 
-A similar cross platform example using [Dear ImGui](https://github.com/ocornut/imgui) with [GLFW](https://www.glfw.org/) and OpenGL is available on [Github as RCCpp-DearImGui-GLFW-example](https://github.com/juliettef/RCCpp-DearImGui-GLFW-example).
+A similar cross platform example using [Dear ImGui](https://github.com/ocornut/imgui) with [GLFW](https://www.glfw.org/) and OpenGL is available on [GitHub as RCCpp-DearImGui-GLFW-example](https://github.com/juliettef/RCCpp-DearImGui-GLFW-example).
 
 [RCC++ Dear ImGui and DirectX Tutorial Video Part 1: Introduction and Getting the Code](https://www.youtube.com/watch?v=5lOOLHmQPBU&list=PLOV2v_nVCDf5tyP3mc1G7vMb7TWVhxDIA)
 
@@ -40,7 +40,7 @@ cd RCCpp_DX11_Example
 
 Alternatively you can use a git GUI program to get the code, most of these will automatically download the git submodules.
 
-If you download the code via the "Download ZIP" approach, you'll also need to download RuntimeCompiledCPlusPlus and Dear ImGui into the RuntimeCompiledCPlusPlus and  imgui folders. The correct versions can be found by clicking on the RuntimeCompiledCPlusPlus and imgui folders you see on the front page of the [RCCpp_DX11_Example Github page](https://github.com/dougbinks/RCCpp_DX11_Example) as below.
+If you download the code via the "Download ZIP" approach, you'll also need to download RuntimeCompiledCPlusPlus and Dear ImGui into the RuntimeCompiledCPlusPlus and  imgui folders. The correct versions can be found by clicking on the RuntimeCompiledCPlusPlus and imgui folders you see on the front page of the [RCCpp_DX11_Example GitHub page](https://github.com/dougbinks/RCCpp_DX11_Example) as below.
 
 The project is split into [several branches](https://github.com/dougbinks/RCCpp_DX11_Example/branches/all) to allow you to navigate to important points in its development, notably:
 
@@ -59,7 +59,7 @@ git checkout RCC++_With_ImGui
 ## Initial Project Setup with Visual Studio
 In this section I'm going to give an overview of the steps needed to setup a Visual Studio solution and projects with the files needed for RCC++, using the Dear ImGui example app as a basis.
 
-Both Dear ImGui and RCC++ are on Github, and both provide Visual Studio project files. However, the project files need to be updated to match the version of VS in use. A simple approach to the project setup would be to fork each repo, but for this tutorial we copy the project files into another folder so we can keep the source repos clean of any changes.
+Both Dear ImGui and RCC++ are on GitHub, and both provide Visual Studio project files. However, the project files need to be updated to match the version of VS in use. A simple approach to the project setup would be to fork each repo, but for this tutorial we copy the project files into another folder so we can keep the source repos clean of any changes.
 
 This is somewhat tedious so I recommend you skip to the next chapter - if you're following along with the code you can grab the starting project on branch Project_Setup in your git clone using:
 ```
@@ -119,7 +119,7 @@ The basic code to initialise and cleanup RCC++ is:
 #include "StdioLogSystem.h"
 
 // RCC++ Data
-static IRuntimeObjectSystem*	g_pRuntimeObjectSystem;
+static IRuntimeObjectSystem*    g_pRuntimeObjectSystem;
 static StdioLogSystem           g_Logger;
 
 // Forward declarations of RCC++ helper functions
@@ -157,7 +157,7 @@ bool RCCppInit()
 
 void RCCppCleanup()
 {
-	delete g_pRuntimeObjectSystem;
+    delete g_pRuntimeObjectSystem;
 }
 ```
 
@@ -183,8 +183,8 @@ int main(int, char**)
 
         // Update RCC++
         RCCppUpdate();
-	
-	//...
+    
+    //...
     }
     //...
 }
@@ -282,7 +282,7 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 
 Our Main.cpp code needs to be able to get hold of the instance of our RCCppMainLoop class. This can be done through the IObjectFactorySystem but we'll use a simpler approach through a struct we call the SystemTable.
 
-The RuntimeObjectSystem can be initialized with SystemTable pointer which is then exposed via ```PerModuleInterface::g_pSystemTable```. This is linked into modules compiled at runtime. RCC++ only forward declares ```SystemTable``, and to use this we need to add a definition which includes the variables and functions we need as members. We'll be adding useful data to our SystemTable to communicate between main.cpp and our RCCppMainLoop class.
+The RuntimeObjectSystem can be initialized with SystemTable pointer which is then exposed via ```PerModuleInterface::g_pSystemTable```. This is linked into modules compiled at runtime. RCC++ only forward declares ```SystemTable```, and to use this we need to add a definition which includes the variables and functions we need as members. We'll be adding useful data to our SystemTable to communicate between main.cpp and our RCCppMainLoop class.
 
 We create a header for our SystemTable:
 
@@ -338,8 +338,9 @@ static SystemTable              g_SystemTable;
 bool RCCppInit()
 {
     g_pRuntimeObjectSystem = new RuntimeObjectSystem;
-	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )
+    if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )
     {
+        delete g_pRuntimeObjectSystem;
         g_pRuntimeObjectSystem = NULL;
         return false;
     }
