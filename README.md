@@ -146,8 +146,9 @@ int main(int, char**)
 bool RCCppInit()
 {
     g_pRuntimeObjectSystem = new RuntimeObjectSystem;
-	if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, NULL) )
+    if( !g_pRuntimeObjectSystem->Initialise(&g_Logger, NULL) )
     {
+        delete g_pRuntimeObjectSystem;
         g_pRuntimeObjectSystem = NULL;
         return false;
     }
