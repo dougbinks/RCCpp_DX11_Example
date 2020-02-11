@@ -20,6 +20,8 @@ RCC++ is primarily designed to shorten iteration times in development - develope
 ## Getting the tutorial code
 The complete finished code for this tutorial, including Dear ImGui and RuntimeCompiledCPlusPlus can be found on [Github as RCCpp_DX11_Example](https://github.com/dougbinks/RCCpp_DX11_Example). Each chapter of the tutorial has a branch with the changes up to that point, so the implementation can be followed step by step.
 
+A similar cross platform example using [Dear ImGui](https://github.com/ocornut/imgui) with [GLFW](https://www.glfw.org/) and OpenGL is available on [Github as RCCpp-DearImGui-GLFW-example](https://github.com/juliettef/RCCpp-DearImGui-GLFW-example).
+
 [RCC++ Dear ImGui and DirectX Tutorial Video Part 1: Introduction and Getting the Code](https://www.youtube.com/watch?v=5lOOLHmQPBU&list=PLOV2v_nVCDf5tyP3mc1G7vMb7TWVhxDIA)
 
 The easiest way to get hold of the example code if you have git is to run the following command using a shell you can run git:
