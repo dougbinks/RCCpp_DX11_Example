@@ -111,7 +111,8 @@ For detailed steps take a look at the  [repo commit history on branch  Working_R
 
 The basic code to initialise and cleanup RCC++ is:
 
-```
+**main.cpp**
+```cpp
 #include "RuntimeObjectSystem.h"
 
 // headers from our example 
@@ -120,6 +121,27 @@ The basic code to initialise and cleanup RCC++ is:
 // RCC++ Data
 static IRuntimeObjectSystem*	g_pRuntimeObjectSystem;
 static StdioLogSystem           g_Logger;
+
+// Forward declarations of RCC++ helper functions
+bool RCCppInit();
+void RCCppCleanup();
+
+// Main code
+int main(int, char**)
+{
+    // Create application window
+    //...
+
+    // Initialize RCC++
+    RCCppInit();
+    
+    // Initialize Direct3D
+    //...
+    
+    // Cleanup
+    RCCppCleanup();
+    //...
+}
 
 bool RCCppInit()
 {
@@ -144,7 +166,27 @@ The RCC++ RuntimeObjectSystem file change notifier must have its update function
 
 This code could go in a runtime compiled file but that requires care to ensure that when that file is compiled, any code which comes after loading a module does not reference memory which could have been deleted. In order to do this we place the code in main.cpp:
 
-```
+**main.cpp**
+```cpp
+// Forward declarations of RCC++ helper functions
+//...
+void RCCppUpdate();
+
+// Main code
+int main(int, char**)
+{
+    //...
+    while (msg.message != WM_QUIT)
+    {
+        //...
+
+        // Update RCC++
+        RCCppUpdate();
+	
+	//...
+    }
+    //...
+}
 void RCCppUpdate()
 {
     //check status of any compile
@@ -166,8 +208,8 @@ Note that a time delta is passed to RCC++. This is used to delay compilation of 
 
 For RCC++ to work, at least one file must have a class derived from RCC++ IObject and registered with RCC++ using a register macro. For this example the file which will be registered for runtime compilation is called RCCppMainLoop.cpp as it is going to handle the inner main loop of the program. 
 
-Initial code for the RCC++ file RCCppMainLoop.cpp:
-```
+Initial code for the RCC++ file **RCCppMainLoop.cpp**:
+```cpp
 #include "ObjectInterfacePerModule.h"
 #include "IObject.h"
 
@@ -214,8 +256,8 @@ For detailed steps see the [repo commit history on branch  RCC++_With_ImGui](htt
 
 All functions needed in main.cpp from the RCCppMainLoop class need to be exposed. To do so, add an abstract interface which exposes each function as a pure virtual function in a header, and derive from that in the RCCppMainLoop class:
 
-RCCppMainLoop.h
-```
+**RCCppMainLoop.h**
+```cpp
 #pragma once
 
 // abstract interface to our RCCppMainLoop class, using I at end to denote Interface
@@ -226,7 +268,9 @@ struct RCCppMainLoopI
 ```
 
 Next step is to include the header in RCCppMainLoop.cpp then derive from the interface with an implementation of the MainLoop() function we added:
-```
+
+**RCCppMainLoop.cpp**
+```cpp
 struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 {
     void MainLoop() override
@@ -241,7 +285,8 @@ The RuntimeObjectSystem can be initialized with SystemTable pointer which is the
 
 We create a header for our SystemTable:
 
-```
+**SystemTable.h**
+```cpp
 #pragma once
 
 #include "RuntimeInclude.h"
@@ -259,7 +304,8 @@ struct SystemTable
 
 We now add a constructor to our RCCppMainLoop class:
 
-```
+**RCCppMainLoop.cpp**
+```cpp
 struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 {
     RCCppMainLoop()
@@ -276,7 +322,9 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 The constructor uses the PerModuleInterface to access the system table and set pRCCppMainLoopI. So when RCCppMainLoop  is recompiled we'll automatically see this pointer switch to the new class.
 
 In main.cpp we now create a SystemTable object and change our RCC++ initialization code to pass the SystemTable to the RuntimeObjectSystem and at the same time we add code to add an include directory to the RCC++ build system using ```AddIncludeDir()```.:
-```
+
+**main.cpp**
+```cpp
 #include "SystemTable.h"
 #include "RCCppMainLoop.h"
 
@@ -304,8 +352,8 @@ bool RCCppInit()
 }
 ```
 
-We also add a call to the MainLoop() function in our main.cpp loop:
-```
+We also add a call to the MainLoop() function in our **main.cpp** loop:
+```cpp
         // Call the function in our RCC++ class
         g_SystemTable.pRCCppMainLoopI->MainLoop();
 ```
@@ -314,8 +362,8 @@ We need to let the RCC++ system know how to link the RCCppMainLoop.cpp file when
 
 The ```RUNTIME_COMPILER_SOURCEDEPENDENCY_FILE``` macro allows us to specify files which are required to be built and linked to our RCC++ compiled code. For Dear ImGui we need to compile and link to several files, so we add these to our RCCppMainLoop.cpp file and then we can add Dear ImGui code and change it at runtime.
 
-Changes to RCCppMainLoop.cpp:
-```
+Changes to **RCCppMainLoop.cpp**:
+```cpp
 #include "imgui.h"
 
 // add imgui source dependencies
@@ -349,8 +397,8 @@ For detailed steps take a look at the [repo commit history up to branch RCC++_Wi
 
 Most DirectX functionality uses interfaces (abstract base classes using pure virtual functions), which can be used without linking to a library. This means that passing a pointer and including a header is all that's needed to use them with RCC++, which can be done through the SystemTable.
 
-Modified SystemTable.h:
-```
+Modified **SystemTable.h**:
+```cpp
 #pragma once
 
 #include "RuntimeInclude.h"
@@ -377,18 +425,18 @@ struct SystemTable
 ```
 
 A static reference to the SystemTable is added so it's easier to use, the following code:
-```
+```cpp
         PerModuleInterface::g_pSystemTable->pd3dDeviceContext;
 ```
 can be simplified to:
-```
+```cpp
         g_pSys-->pd3dDeviceContext;
 ```
 
 Initialize these pointers in main.cpp and in RCCppMainLoop.cpp add ```#include <d3d11.h>``` to use most D3D functionality through the pointers in the system table.
 
-We can now use the device context in our RCCppMainLoop.cpp code:
-```
+We can now use the device context in our **RCCppMainLoop.cpp** code:
+```cpp
 // ...
 
 #include <d3d11.h>
@@ -409,8 +457,8 @@ We can now use the device context in our RCCppMainLoop.cpp code:
 
 However we've not been able to move over the call to ```Present()``` at this point as this we need to call ```ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());``` which is a function in imgui_impl_dx11.h. We could move all the Dear ImGui code into a library and then [use the library from the runtime modifiable code](https://github.com/RuntimeCompiledCPlusPlus/RuntimeCompiledCPlusPlus/wiki/Using-libraries-from-runtime-modifiable-classes) as we do in the next chapter, but instead as this is only one function we add a function pointer to the System Table.
 
-Updates to SystemTable.h:
-```
+Updates to **SystemTable.h**:
+```cpp
 //...
 
 typedef void (*ImGui_ImplDX11_RenderDrawDataFunc)( ImDrawData* draw_data );
@@ -426,15 +474,15 @@ struct SystemTable
 }
 ```
 
-In main.cpp we initialize this after our Dear ImGui context:
-```
+In **main.cpp** we initialize this after our Dear ImGui context:
+```cpp
     // set system table variables for ImGui and ImGui_Impl
     g_SystemTable.pImContext = ImGui::GetCurrentContext();
     g_SystemTable.ImGui_ImplDX11_RenderDrawData = ImGui_ImplDX11_RenderDrawData;
 ```
 
-and then in RCCppMainLoop.cpp the end we have:
-```
+and then in **RCCppMainLoop.cpp** the end we have:
+```cpp
     void MainLoop() override
     {
         //...
@@ -459,16 +507,16 @@ For detailed steps take a look at the [repo commit history up to branch RCC++_Wi
 
 To inform RCC++ that it needs to link with a library when performing runtime compilation, use the ```RUNTIME_COMPILER_LINKLIBRARY``` macro. For non system libraries the library directories to search can be added with the ```IRuntimeObjectSystem::AddLibraryDir``` function.
 
-In RCCppMainLoop.cpp add the following lines:
-```
+In **RCCppMainLoop.cpp** add the following lines:
+```cpp
 #include "RuntimeLinkLibrary.h"
 RUNTIME_COMPILER_LINKLIBRARY( "d3d11.lib" ); 
 ```
 
 The device creation can now be moved over to the RCCppMainLoop.cpp, extending the interface so main.cpp can call the creation functions:
 
-We add the creation and cleanup interface functions to RCCppMainLoop.h:
-```
+We add the creation and cleanup interface functions to **RCCppMainLoop.h**:
+```cpp
 #pragma once
 
 // abstract interface to our RCCppMainLoop class, using I at end to denote Interface
@@ -482,8 +530,8 @@ struct RCCppMainLoopI
 };
 ```
 
-And move those functions over to RCCppMainLoop.cpp:
-```
+And move those functions over to **RCCppMainLoop.cpp**:
+```cpp
 struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 {
 
@@ -543,11 +591,11 @@ struct RCCppMainLoop : RCCppMainLoopI, TInterface<IID_IRCCPP_MAIN_LOOP,IObject>
 ```
 
 These functions are the same as we had in the ```main.cpp``` code, but with the struct access ```g_SystemTable.``` replaced with the system table pointer access ```g_pSys->```. In ```main.cpp``` we remove these functions and their forward declarations and add ```g_SystemTable.pRCCppMainLoopI->``` in front of calls to these functions as they are now accessed through the pointer to our RCCppMainLoop object pointer in the System Table. So for example:
-```
+```cpp
         CleanupDeviceD3D();
 ```
 becomes:
-```
+```cpp
         g_SystemTable.pRCCppMainLoopI->CleanupDeviceD3D();
 ```
 
