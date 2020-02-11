@@ -168,6 +168,8 @@ bool RCCppInit()
     g_SystemTable.pLogger = &g_Logger;
 	if( !g_SystemTable.pRuntimeObjectSystem->Initialise(&g_Logger, &g_SystemTable) )
     {
+        delete g_SystemTable.pRuntimeObjectSystem;
+        g_SystemTable.pRuntimeObjectSystem = NULL;
         return false;
     }
 
